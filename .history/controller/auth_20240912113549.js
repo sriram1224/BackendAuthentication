@@ -30,19 +30,14 @@ const login = async (req, res) => {
     }
 
     const isPassValid = bcrypt.compareSync(req.body.password, user.password);
-    const tokenExpiry = Math.ceil(new Date().getTime() / 1000) + 3600;
     const payload = {
       userId: user._id,
       name: user.name,
-      exp: tokenExpiry,
     };
-    const token = jwt.sign(payload, jwtSecretKey);
+    jwt.sign(payload);
 
     if (isPassValid) {
-      return res.json({
-        message: "User Logged in",
-        token: token,
-      });
+      return res.json({ message: "User Logged in" });
     } else {
       return res.status(401).json({ message: "Email or password is wrong" });
     }

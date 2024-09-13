@@ -1,7 +1,7 @@
 const userModel = require("../model/auth");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const jwtSecretKey = "My_Jwt_Secret_Key123";
+
 const signup = async (req, res) => {
   try {
     const salt = bcrypt.genSaltSync(10);
@@ -30,19 +30,11 @@ const login = async (req, res) => {
     }
 
     const isPassValid = bcrypt.compareSync(req.body.password, user.password);
-    const tokenExpiry = Math.ceil(new Date().getTime() / 1000) + 3600;
     const payload = {
       userId: user._id,
-      name: user.name,
-      exp: tokenExpiry,
     };
-    const token = jwt.sign(payload, jwtSecretKey);
-
     if (isPassValid) {
-      return res.json({
-        message: "User Logged in",
-        token: token,
-      });
+      return res.json({ message: "User Logged in" });
     } else {
       return res.status(401).json({ message: "Email or password is wrong" });
     }

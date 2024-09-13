@@ -30,7 +30,7 @@ const login = async (req, res) => {
     }
 
     const isPassValid = bcrypt.compareSync(req.body.password, user.password);
-    const tokenExpiry = Math.ceil(new Date().getTime() / 1000) + 3600;
+    const tokenExpiry = Math.ceil(new Date().getTime() / 1_000) + 3600;
     const payload = {
       userId: user._id,
       name: user.name,
